@@ -1,7 +1,7 @@
 import fetcher from '@/src/lib/swr'
 import useSWR, { SWRConfiguration } from 'swr'
-import { DUMMY_DATA_LIST } from '../endpoint/demo'
-import { IApiDummy } from '../types/demo'
+import { DUMMY_DATA_LIST } from '@/src/api/endpoint/demo'
+import { IApiDummy } from '@/src/types/api/demo'
 
 export function useDummyList(options?: SWRConfiguration) {
     const { data, error } = useSWR<IApiDummy[]>(
