@@ -8,7 +8,8 @@
         "start": "next start -p ${PORT:=3000}",
         "lint": "tsc && next lint",
         "lighthouse:desktop": "lighthouse http://localhost:3000/ --headless --preset=desktop --view --output html --output-path ./lighthouse.html",
-        "lighthouse:mobile": "lighthouse http://localhost:3000/ --headless --preset=desktop --view --output html --output-path ./lighthouse.html"
+        "lighthouse:mobile": "lighthouse http://localhost:3000/ --headless --preset=desktop --view --output html --output-path ./lighthouse.html",
+        "prepare": "husky install"
     },
     "dependencies": {
         "@material-ui/core": "^4.12.1",
@@ -28,6 +29,7 @@
         "eslint-config-next": "11.0.1",
         "faker": "^5.5.3",
         "lighthouse": "^8.1.0",
-        "typescript": "4.3.5"
+        "typescript": "4.3.5",
+        "husky": "^7.0.0"
     }
 }
