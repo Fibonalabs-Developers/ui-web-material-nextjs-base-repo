@@ -38,6 +38,10 @@ miscellaneous/helper code
 
 types/interface for application
 
+#### src/assets
+
+Application Assets
+
 ## Scripts
 
 Linting

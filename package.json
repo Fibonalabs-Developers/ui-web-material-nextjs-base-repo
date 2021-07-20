@@ -9,7 +9,8 @@
         "lint": "tsc && next lint",
         "lighthouse:desktop": "lighthouse http://localhost:3000/ --headless --preset=desktop --view --output html --output-path ./lighthouse.html",
         "lighthouse:mobile": "lighthouse http://localhost:3000/ --headless --preset=desktop --view --output html --output-path ./lighthouse.html",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "commit": "clear && git-cz"
     },
     "dependencies": {
         "@material-ui/core": "^4.12.1",
@@ -30,6 +31,7 @@
         "eslint": "7.30.0",
         "eslint-config-next": "11.0.1",
         "faker": "^5.5.3",
+        "git-cz": "^4.7.6",
         "husky": "^7.0.0",
         "lighthouse": "^8.1.0",
         "typescript": "4.3.5"
