@@ -3,8 +3,15 @@ const nextTranslate = require('next-translate')
 /**
  * @type {import('next').NextConfig}
  */
-const nextConfig = nextTranslate({
+let nextConfig = {
     reactStrictMode: true,
-})
+}
 
-module.exports = nextConfig
+if (process.env.NODE_ENV === 'production') {
+    module.exports = nextTranslate(nextConfig)
+} else {
+    const withBundleAnalyzer = require('@next/bundle-analyzer')({
+        enabled: process.env.ANALYZE === 'true',
+    })
+    module.exports = withBundleAnalyzer(nextTranslate(nextConfig))
+}

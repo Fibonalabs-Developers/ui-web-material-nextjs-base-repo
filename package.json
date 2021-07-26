@@ -11,7 +11,10 @@
         "lighthouse:mobile": "lighthouse http://localhost:3000/ --headless --preset=desktop --view --output html --output-path ./lighthouse.html",
         "prepare": "husky install",
         "commit": "clear && git-cz",
-        "prettier": "prettier --config .prettierrc --write"
+        "prettier": "prettier --config .prettierrc --write",
+        "analyze": "cross-env NODE_ENV=development ANALYZE=true next build",
+        "analyze:server": "cross-env NODE_ENV=development BUNDLE_ANALYZE=server next build",
+        "analyze:browser": "cross-env NODE_ENV=development BUNDLE_ANALYZE=browser next build"
     },
     "dependencies": {
         "@material-ui/core": "^4.12.1",
@@ -27,8 +30,10 @@
     "devDependencies": {
         "@commitlint/cli": "^12.1.4",
         "@commitlint/config-conventional": "^12.1.4",
+        "@next/bundle-analyzer": "^11.0.1",
         "@types/faker": "^5.5.7",
         "@types/react": "17.0.14",
+        "cross-env": "^7.0.3",
         "eslint": "7.30.0",
         "eslint-config-next": "11.0.1",
         "faker": "^5.5.3",
