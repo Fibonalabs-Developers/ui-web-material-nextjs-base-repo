@@ -72,3 +72,68 @@ To learn more about Next.js, take a look at the following resources:
 -   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Feature Flags
+
+Refer the index.tsx for the template
+
+We have the generic function under src/utils/hasPermissions.ts where we can pass the features, moduleId and the key as parameters to get the permission.
+
+Example Usage:
+
+-Sample feature json
+
+```bash
+
+import { hasPermissions,PermissionTypes } from '@/src/utils/hasPermissions'
+
+const features: Record<number, PermissionTypes> = {
+        '1': {
+            name: 'login',
+            canEdit: true,
+            canCreate: true,
+            display: false,
+        },
+        '2': {
+            name: 'adminDashboard',
+            canEdit: true,
+            canCreate: true,
+            display: true,
+        },
+        '101': {
+            name: 'Signup',
+            canEdit: true,
+            canCreate: true,
+            display: true,
+        },
+    }
+
+```
+
+-   For checking Display permission
+
+```bash
+
+{hasPermissions(features , { moduleId: 2, key: 'display' }) ? <button> login</button> : null}
+```
+
+-   For checking create permission
+
+```bash
+
+{hasPermissions(features, { moduleId: 2, key: 'canCreate' }) ? <button> login</button> : null}
+```
+
+-   For checking Edit permission
+
+```bash
+
+{hasPermissions(features, { moduleId: 2, key: 'canEdit' }) ? <button> login</button> : null}
+```
+
+-   For checking Delete permission
+
+```bash
+
+{hasPermissions(features, { moduleId: 2, key: 'canDelete' }) ? <button> login</button> : null}
+```
