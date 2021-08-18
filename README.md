@@ -148,81 +148,81 @@ Example Usage:
 
 -   Input field Structure
 
-```bash
+```javascript
 const formElement: FieldProps<FormType>[] = [
-        {
-            type: 'text',
-            label: 'Name',
-            name: 'name',
-            validationType: 'string',
-            validations: [
-                {
-                    type: 'required',
-                    params: ['Name field is required'],
-                },
-                {
-                    type: 'min',
-                    params: [4, 'Name cannot be less than 5 characters'],
-                },
-                {
-                    type: 'max',
-                    params: [10, 'Name cannot be more than 10 characters'],
-                },
-            ],
-        },
-        {
-            type: 'number',
-            label: 'Age',
-            name: 'age',
-            validationType: 'number',
-            validations: [
-                {
-                    type: 'required',
-                    params: ['Age field is required'],
-                },
-                {
-                    type: 'min',
-                    params: [5, 'Age cannot be less than 5'],
-                },
-                {
-                    type: 'max',
-                    params: [10, 'Age cannot be more than 10'],
-                },
-            ],
-        },
-        {
-            type: 'email',
-            name: 'email',
-            label: 'Email',
-        },
-        {
-            type: 'password',
-            name: 'password',
-            label: 'Password',
-            validationType: 'string',
-            validations: [
-                {
-                    type: 'required',
-                    params: ['Password field is required'],
-                },
-                {
-                    type: 'min',
-                    params: [6, 'Password cannot be less than 6 characters'],
-                },
-            ],
-        },
+    {
+        type: 'text',
+        label: 'Name',
+        name: 'name',
+        validationType: 'string',
+        validations: [
+            {
+                type: 'required',
+                params: ['Name field is required'],
+            },
+            {
+                type: 'min',
+                params: [4, 'Name cannot be less than 5 characters'],
+            },
+            {
+                type: 'max',
+                params: [10, 'Name cannot be more than 10 characters'],
+            },
+        ],
+    },
+    {
+        type: 'number',
+        label: 'Age',
+        name: 'age',
+        validationType: 'number',
+        validations: [
+            {
+                type: 'required',
+                params: ['Age field is required'],
+            },
+            {
+                type: 'min',
+                params: [5, 'Age cannot be less than 5'],
+            },
+            {
+                type: 'max',
+                params: [10, 'Age cannot be more than 10'],
+            },
+        ],
+    },
+    {
+        type: 'email',
+        name: 'email',
+        label: 'Email',
+    },
+    {
+        type: 'password',
+        name: 'password',
+        label: 'Password',
+        validationType: 'string',
+        validations: [
+            {
+                type: 'required',
+                params: ['Password field is required'],
+            },
+            {
+                type: 'min',
+                params: [6, 'Password cannot be less than 6 characters'],
+            },
+        ],
+    },
 ]
 ```
 
 -   Import Forms from FormBuilder Component with fieldProps for typecheking
 
-```bash
+```javascript
 import Forms, { FieldProps } from '@/src/components/FormBuilder'
 ```
 
 -   Form generation (Add the initial values for the fields mentioned in the json structure. Key should match the value of the name field from the json structure)
 
-```bash
+```javascript
 <Forms<FormType>
                 fields={formElement}
                 initialValues={{
