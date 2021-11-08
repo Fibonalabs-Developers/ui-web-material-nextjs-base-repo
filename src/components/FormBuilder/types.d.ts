@@ -1,8 +1,8 @@
-import { FormControlLabelProps } from '@material-ui/core/FormControlLabel'
-import { SelectProps as MUISelectProps } from '@material-ui/core/Select'
-import { MenuItemProps } from '@material-ui/core/MenuItem'
-import { RadioGroupProps as MUIRadioGroupProps } from '@material-ui/core/RadioGroup'
-import { TextFieldProps as MUITextFieldProps } from '@material-ui/core/TextField'
+import { FormControlLabelProps } from '@mui/material/FormControlLabel'
+import { SelectProps as MUISelectProps } from '@mui/material/Select'
+import { MenuItemProps } from '@mui/material/MenuItem'
+import { RadioGroupProps as MUIRadioGroupProps } from '@mui/material/RadioGroup'
+import { TextFieldProps as MUITextFieldProps } from '@mui/material/TextField'
 
 type CommonFieldProps<T> = {
     /**

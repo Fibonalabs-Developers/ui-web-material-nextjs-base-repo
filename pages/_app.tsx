@@ -1,21 +1,25 @@
 import React from 'react'
 import Head from 'next/head'
-import { ThemeProvider } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import { CacheProvider, EmotionCache } from '@emotion/react'
 import theme from '@/src/theme'
-import type { AppProps } from 'next/app'
+import { AppProps } from 'next/app'
+import createEmotionCache from '@/src/utils/createEmotionCache'
 
-export default function MyApp({ Component, pageProps }: AppProps) {
-    React.useEffect(() => {
-        // Remove the server-side injected CSS.
-        const jssStyles = document.querySelector('#jss-server-side')
-        if (jssStyles && jssStyles.parentElement) {
-            jssStyles.parentElement.removeChild(jssStyles)
-        }
-    }, [])
+const clientSideEmotionCache = createEmotionCache()
 
+interface MyAppProps extends AppProps {
+    emotionCache?: EmotionCache
+}
+
+export default function MyApp({
+    Component,
+    pageProps,
+    emotionCache = clientSideEmotionCache,
+}: MyAppProps) {
     return (
-        <>
+        <CacheProvider value={emotionCache}>
             <Head>
                 <title>Fibonalabs</title>
                 <meta name="description" content="Home" />
@@ -24,11 +28,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                     content="minimum-scale=1, initial-scale=1, width=device-width"
                 />
             </Head>
-            <ThemeProvider theme={theme}>
-                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                <CssBaseline />
-                <Component {...pageProps} />
-            </ThemeProvider>
-        </>
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme}>
+                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                    <CssBaseline />
+                    <Component {...pageProps} />
+                </ThemeProvider>
+            </StyledEngineProvider>
+        </CacheProvider>
     )
 }
