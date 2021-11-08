@@ -5,6 +5,7 @@ const nextTranslate = require('next-translate')
  */
 let nextConfig = {
     reactStrictMode: true,
+    swcMinify: true,
 }
 
 if (process.env.NODE_ENV === 'production') {

@@ -12,8 +12,8 @@ export type ValidationProps = {
 }
 
 function createYupSchema(schema, config: ValidationProps & { name: string }) {
-    console.log('schema')
-    console.log(schema)
+    // console.log('schema')
+    // console.log(schema)
     const { name, validationType, validations = [] } = config
     if (!yup[validationType]) {
         return schema
@@ -24,7 +24,7 @@ function createYupSchema(schema, config: ValidationProps & { name: string }) {
         if (!validator[type]) {
             return
         }
-        console.log(type, params)
+        // console.log(type, params)
         validator = validator[type](...params)
     })
     schema[name] = validator
