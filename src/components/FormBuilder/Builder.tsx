@@ -1,14 +1,15 @@
 // @ts-nocheck
-import Button from '@mui/material/Button'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormHelperText from '@mui/material/FormHelperText'
-import FormLabel from '@mui/material/FormLabel'
-import MenuItem from '@mui/material/MenuItem'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
-import TextField from '@mui/material/TextField'
-import { FormikProps, useFormik } from 'formik'
+import MuiButton from '@mui/material/Button'
+import MuiFormControl from '@mui/material/FormControl'
+import MuiFormControlLabel from '@mui/material/FormControlLabel'
+import MuiFormHelperText from '@mui/material/FormHelperText'
+import MuiFormLabel from '@mui/material/FormLabel'
+import MuiGrid from '@mui/material/Grid'
+import MuiMenuItem from '@mui/material/MenuItem'
+import MuiRadio from '@mui/material/Radio'
+import MuiRadioGroup from '@mui/material/RadioGroup'
+import MuiTextField from '@mui/material/TextField'
+import { FormikHelpers, FormikProps, useFormik } from 'formik'
 import React, { ReactNode } from 'react'
 import { RadioGroupProps, SelectProps, TextFieldProps } from './types'
 import { getValidationRules, ValidationProps } from './validator'
@@ -49,18 +50,28 @@ export type FormBuilderProps<T> = {
     /**
      * Callback function for form submit.
      */
-    onSubmit: (value: T) => void
+    onSubmit: (
+        values: T,
+        formikHelpers: FormikHelpers<T>
+    ) => void | Promise<any>
 
     /**
      * Callback function t oreset form fields.
      */
-    onReset?: (value: T) => void
+    onReset?: ((values: T, formikHelpers: FormikHelpers<T>) => void) | undefined
 
     /**
      * Form labels.
      */
     labels?: {
         submitButton?: string | ReactNode
+    }
+
+    /**
+     * Submit button.
+     */
+    submitButton?: {
+        fullWidth?: boolean
     }
 }
 
@@ -70,32 +81,35 @@ const FormBuilder = <T,>({
     onSubmit,
     onReset,
     labels,
+    submitButton,
 }: React.PropsWithChildren<FormBuilderProps<T>>) => {
     const formik: FormikProps<T> = useFormik<T>({
         initialValues,
         validationSchema: getValidationRules<T>({ fields }),
-        onSubmit: (value) => {
-            console.log('On Submit')
-            onSubmit(value)
-        },
-        onReset: (value) => {
-            console.log('On Reset')
-            if (onReset) onReset(value)
-        },
+        onSubmit: onSubmit,
+        onReset: onReset,
     })
 
     return (
-        <div>
-            <h1>Form</h1>
-            <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+            <MuiGrid container spacing={2}>
                 {fields
                     .map(
                         ({
                             type,
                             validationType,
                             validations,
+                            responsive: formResponsive,
                             ...formProps
                         }: FieldProps<T>) => {
+                            const responsive = {
+                                xs: 12,
+                                sm: 12,
+                                md: 12,
+                                lg: 12,
+                                xl: 12,
+                                ...formResponsive,
+                            }
                             switch (type) {
                                 case 'email':
                                 case 'number':
@@ -109,8 +123,13 @@ const FormBuilder = <T,>({
                                         'type'
                                     > = formProps as TextFieldProps<T>
                                     return (
-                                        <div key={name.toString()}>
-                                            <TextField
+                                        <MuiGrid
+                                            item
+                                            {...responsive}
+                                            key={name.toString()}
+                                        >
+                                            <MuiTextField
+                                                fullWidth
                                                 type={type}
                                                 name={name.toString()}
                                                 value={formik.values[name]}
@@ -126,7 +145,7 @@ const FormBuilder = <T,>({
                                                 }
                                                 {...rest}
                                             />
-                                        </div>
+                                        </MuiGrid>
                                     )
                                 }
                                 case 'radio': {
@@ -140,10 +159,16 @@ const FormBuilder = <T,>({
                                         'type'
                                     > = formProps as RadioGroupProps<T>
                                     return (
-                                        <div key={name.toString()}>
-                                            <FormControl>
-                                                <FormLabel>{label}</FormLabel>
-                                                <RadioGroup
+                                        <MuiGrid
+                                            item
+                                            {...responsive}
+                                            key={name.toString()}
+                                        >
+                                            <MuiFormControl>
+                                                <MuiFormLabel>
+                                                    {label}
+                                                </MuiFormLabel>
+                                                <MuiRadioGroup
                                                     name={name.toString()}
                                                     value={formik.values[name]}
                                                     onChange={
@@ -159,22 +184,22 @@ const FormBuilder = <T,>({
                                                             ...optionRest
                                                         } = option
                                                         return (
-                                                            <FormControlLabel
+                                                            <MuiFormControlLabel
                                                                 key={(
                                                                     value as string
                                                                 ).toString()}
                                                                 value={value}
                                                                 control={
                                                                     control || (
-                                                                        <Radio />
+                                                                        <MuiRadio />
                                                                     )
                                                                 }
                                                                 {...optionRest}
                                                             />
                                                         )
                                                     })}
-                                                </RadioGroup>
-                                                <FormHelperText
+                                                </MuiRadioGroup>
+                                                <MuiFormHelperText
                                                     error={
                                                         formik.touched[name] &&
                                                         Boolean(
@@ -184,9 +209,9 @@ const FormBuilder = <T,>({
                                                 >
                                                     {formik.touched[name] &&
                                                         formik.errors[name]}
-                                                </FormHelperText>
-                                            </FormControl>
-                                        </div>
+                                                </MuiFormHelperText>
+                                            </MuiFormControl>
+                                        </MuiGrid>
                                     )
                                 }
                                 case 'select': {
@@ -200,11 +225,15 @@ const FormBuilder = <T,>({
                                         'type'
                                     > = formProps as SelectProps<T>
                                     return (
-                                        <div key={name.toString()}>
-                                            <TextField
+                                        <MuiGrid
+                                            item
+                                            {...responsive}
+                                            key={name.toString()}
+                                        >
+                                            <MuiTextField
                                                 select
                                                 label={label}
-                                                style={{ width: '100px' }}
+                                                style={{ width: '100%' }}
                                                 type={type}
                                                 name={name.toString()}
                                                 value={formik.values[name]}
@@ -224,18 +253,18 @@ const FormBuilder = <T,>({
                                                     const { value, label } =
                                                         option
                                                     return (
-                                                        <MenuItem
+                                                        <MuiMenuItem
                                                             key={(
                                                                 value as string
                                                             ).toString()}
                                                             value={value}
                                                         >
                                                             {label}
-                                                        </MenuItem>
+                                                        </MuiMenuItem>
                                                     )
                                                 })}
-                                            </TextField>
-                                        </div>
+                                            </MuiTextField>
+                                        </MuiGrid>
                                     )
                                 }
 
@@ -245,20 +274,23 @@ const FormBuilder = <T,>({
                         }
                     )
                     .filter((_) => _)}
-            </form>
-            <div>
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                        formik.handleSubmit()
-                    }}
-                >
-                    {labels?.submitButton || 'Submit'}
-                </Button>
-            </div>
-        </div>
+
+                <MuiGrid item xs={12}>
+                    <MuiButton
+                        {...submitButton}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        disabled={formik.isSubmitting}
+                        onClick={() => {
+                            formik.handleSubmit()
+                        }}
+                    >
+                        {labels?.submitButton || 'Submit'}
+                    </MuiButton>
+                </MuiGrid>
+            </MuiGrid>
+        </form>
     )
 }
 
