@@ -1,8 +1,5 @@
 import { FormControlLabelProps } from '@mui/material/FormControlLabel'
-import { SelectProps as MUISelectProps } from '@mui/material/Select'
 import { MenuItemProps } from '@mui/material/MenuItem'
-import { RadioGroupProps as MUIRadioGroupProps } from '@mui/material/RadioGroup'
-import { TextFieldProps as MUITextFieldProps } from '@mui/material/TextField'
 
 type CommonFieldProps<T> = {
     /**
@@ -14,6 +11,17 @@ type CommonFieldProps<T> = {
      * Form Field label.
      */
     label: string
+
+    /**
+     * Form Field Responsive.
+     */
+    responsive?: {
+        xs?: number
+        sm?: number
+        md?: number
+        lg?: number
+        xl?: number
+    }
 }
 
 // Text Field
